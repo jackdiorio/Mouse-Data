@@ -1,2 +1,2 @@
 # Mouse-Data
-A program written with the prupose of tracking mice and their genetic traits.
+A program written with the purpose of tracking mice and their genetic traits.
