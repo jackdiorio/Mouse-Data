@@ -21,6 +21,8 @@ class Mouse():
         self.agouti_a1 = agouti_a1
         self.agouti_a2 = agouti_a2
 
+
+
     # Method to mate self with 'mate' and return list of hypothetical offspring
     def mate(self, mate: Type["Mouse"]) -> list:
 
@@ -30,6 +32,8 @@ class Mouse():
 
         possible_mice = [Mouse(), Mouse(), Mouse(), Mouse()]
         return possible_mice
+    
+
 
     # Method to get punnett square for locus returned as a list with pattern:
     # [self x mate]: [ a1 x a1, a1 x a2, a2 x a1, a2 x a2 ]
@@ -82,6 +86,8 @@ class Mouse():
 
         return punnett
     
+
+    
     # Method to process output from get_punnett and returns phenotype
     # possibilites for a specific locus
     def process_punnett(self, punnett: list, locus: str) -> str:
@@ -89,6 +95,8 @@ class Mouse():
         # TODO: MAKE THIS SHIT!!
 
         return "?"
+    
+    
     
     # This is called when the object is printed
     def __str__(self):
