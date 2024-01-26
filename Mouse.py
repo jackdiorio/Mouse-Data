@@ -22,7 +22,7 @@ class Mouse():
 
     # Method to mate self with 'mate' by punnet square under 'locus'
     def mate(self, mate: Type["Mouse"], locus: str):
-        punnet = []
+        punnett = []
 
         # Set gene list and relevant alleles based on locus
         if (locus == "A"):
@@ -30,12 +30,12 @@ class Mouse():
             mate_a1, mate_a2 = mate.agouti_a1, mate.agouti_a2
         else:
             print("ERROR: A (Agouti) is the only locus currently supported")
-            return punnet
+            return punnett
 
         # List shows punnet square by [a1xa1, a1xa2, a2xa1, a2xa2]
-        punnet.append(f"{self_a1} {mate_a1}")
-        punnet.append(f"{self_a1} {mate_a2}")
-        punnet.append(f"{self_a2} {mate_a1}")
-        punnet.append(f"{self_a2} {mate_a2}")
+        punnett.append(f"{self_a1} {mate_a1}")
+        punnett.append(f"{self_a1} {mate_a2}")
+        punnett.append(f"{self_a2} {mate_a1}")
+        punnett.append(f"{self_a2} {mate_a2}")
 
-        return punnet
+        return punnett
