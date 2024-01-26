@@ -1,33 +1,41 @@
 import datetime
+from typing import Type
 
 # Define mouse class
 class Mouse():
 
     # Class constructor
-    def __init__(self, name: str, birthday: datetime, father, mother, 
-                 coat_color: str, pied: bool, coat_variety: str):
-
-        # A mouse has a name and birthday
+    def __init__(self, name: str, birthday: datetime, father: Type["Mouse"], mother: Type["Mouse"], 
+                 agouti_pheno, agouti_a1: str, agouti_a2: str):
+        
         self.name = name
         self.birthday = birthday
-
-        # Mouse coat colors as standardized by the American Fancy Rat & Mouse
-        # Association: https://www.afrma.org/fancymice.htm (ctrl-click link)
-
-        self.coat_color = coat_color # coat colors as listed under SELF
-        self.coat_variety = coat_variety # coat varieties
-
-        self.pied = pied
-
         self.father = father
         self.mother = mother
 
-# Mary and Jospeh are created yesterday (created on 1/25)
-mary = Mouse("Mary", datetime.date(2024, 1, 24), "None", "None", "Coffee", False, "Satin")
-joe = Mouse("Joseph", datetime.date(2024, 1, 24), "None", "None", "Black", True, "Frizzie")
+        # Phenotype for A (agouti) locus
+        self.agouti_pheno = agouti_pheno
 
-# Jesus is born from mary and joseph today
-jesus = Mouse("Jesus", datetime.datetime.today, joe, mary, "White", False, "Standard")
+        # Genotypes for A (agouti) locus
+        self.agouti_a1 = agouti_a1
+        self.agouti_a2 = agouti_a2
 
-# Who is jesus' dad?
-print("Jesus' father is " + jesus.father.name)
+    # Method to mate self with 'mate' by punnet square under 'locus'
+    def mate(self, mate: Type["Mouse"], locus: str):
+        punnet = []
+
+        # Set gene list and relevant alleles based on locus
+        if (locus == "A"):
+            self_a1, self_a2 = self.agouti_a1, self.agouti_a2
+            mate_a1, mate_a2 = mate.agouti_a1, mate.agouti_a2
+        else:
+            print("ERROR: A (Agouti) is the only locus currently supported")
+            return punnet
+
+        # List shows punnet square by [a1xa1, a1xa2, a2xa1, a2xa2]
+        punnet.append(f"{self_a1} {mate_a1}")
+        punnet.append(f"{self_a1} {mate_a2}")
+        punnet.append(f"{self_a2} {mate_a1}")
+        punnet.append(f"{self_a2} {mate_a2}")
+
+        return punnet
