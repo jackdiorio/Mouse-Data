@@ -26,6 +26,7 @@ class Mouse():
     # Method to mate self with 'mate' and return list of hypothetical offspring
     def mate(self, mate: Type["Mouse"]) -> list:
 
+        #TODO: THIS SHIT
         # 1?. get_punnett for each locus
         # 2?. process_punnet to get possible phenotypes per locus
         # 3?. somehow get possible phenotypes for all locuses
@@ -52,39 +53,52 @@ class Mouse():
         else:
             print("ERROR: A (Agouti) is the only locus currently supported")
             return punnett
+       
+        # Make punnet a list of tuples with combos for processing
+        punnett = [(self_a1, mate_a1), (self_a1, mate_a2),
+                   (self_a2, mate_a1), (self_a2, mate_a2)]
         
-        # Make punnett list, :<4 is extra formatting for parsing below
-        punnett = [f"{self_a1:<4} {mate_a1:<4}", f"{self_a1:<4} {mate_a2:<4}", 
-                   f"{self_a2:<4} {mate_a1:<4}", f"{self_a2:<4} {mate_a2:<4}"]
+        # Replace each pair in punnett with string validated result
+        for i in range(4):
+            pair = punnett[i]
+            punnett[i] = self.check_dominance(pair, genes, first_dom)
 
-        # MASSIVE CODE BLOCK to verify the punnett sqaure
-        for pair in punnett:
-            result = ""
-            self_a = pair[:4].strip() # This string parsing relies on the
-            mate_a = pair[5:].strip() # spacial formatting above
-
-            # If self_a and mate_a are dominant
-            if (self_a in genes[first_dom:] and mate_a in genes[first_dom:]):
-                self_a_dmnce = genes.index(self_a)
-                mate_a_dmnce = genes.index(mate_a)
-                # Remove less dominant one (relies on 'genes' being in order)
-                if (self_a_dmnce > mate_a_dmnce):
-                    result = f"{self_a}"
-                else:
-                    result = f"{mate_a}"
-            # Both aren't dominant, if self_a is the dominant one
-            elif (self_a in genes[first_dom:]):
-                result = f"{self_a}"
-            # If mate_a is the dominant one
-            elif (mate_a in genes[first_dom:]):
-                result = f"{mate_a}"
-            # Ok then neither are dominant
-            else:
-                result = f"{self_a} {mate_a}"
-
-            punnett[punnett.index(pair)] = result # Apply result
-
+        # Return validated punnet square with string elements
         return punnett
+    
+
+
+    # This method is supplemental to get_punnett (above) and has organizational
+    # purpose. Takes in necessary info and checks for dominance validation
+    def check_dominance(self, pair: tuple, genes: list, first_dom: int) -> str:
+        # Unpack pair tuple
+        self_a, mate_a = pair
+        result = ""
+
+        # If both self_a and mate_a are dominant
+        if (self_a in genes[first_dom:] and mate_a in genes[first_dom:]):
+            
+            # Remove less dominant one (relies on 'genes' being in order)
+            self_a_dmnce = genes.index(self_a)
+            mate_a_dmnce = genes.index(mate_a)
+            if (self_a_dmnce > mate_a_dmnce):
+                result = f"{self_a}"
+            else:
+                result = f"{mate_a}"
+
+        # Both aren't dominant, but if self_a is the dominant one
+        elif (self_a in genes[first_dom:]):
+            result = f"{self_a}"
+
+        # If mate_a is the dominant one
+        elif (mate_a in genes[first_dom:]):
+            result = f"{mate_a}"
+
+        # Ok then neither are dominant
+        else:
+            result = f"{self_a} {mate_a}"
+
+        return result
     
 
     
@@ -96,7 +110,7 @@ class Mouse():
 
         return "?"
     
-    
+
     
     # This is called when the object is printed
     def __str__(self):
